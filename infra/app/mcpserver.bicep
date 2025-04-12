@@ -25,6 +25,10 @@ param containerMinReplicaCount int
 @description('Maximum replica count for app containers.')
 param containerMaxReplicaCount int
 
+@description('StickySessions.Affinity for the app.')
+@allowed(['none', 'sticky'])
+param stickySessionsAffinity string = 'none'
+
 param mcpserverContainerAppExists bool
 
 var abbrs = loadJsonContent('../abbreviations.json')
@@ -77,6 +81,9 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
         external: true
         targetPort: containerPort
         transport: 'auto'
+        stickySessions: {
+          affinity: stickySessionsAffinity
+        }
       }
       registries: [
         {

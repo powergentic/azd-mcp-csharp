@@ -85,6 +85,7 @@ module mcpserver './app/mcpserver.bicep' = {
     containerPort: containerPort
     containerMinReplicaCount: containerMinReplicaCount
     containerMaxReplicaCount: containerMaxReplicaCount
+    stickySessionsAffinity: 'sticky'
   }
   scope: rg
 }

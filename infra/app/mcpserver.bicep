@@ -25,6 +25,10 @@ param containerMinReplicaCount int
 @description('Maximum replica count for app containers.')
 param containerMaxReplicaCount int
 
+@description('Revision mode for the app.')
+@allowed(['Single', 'Multiple'])
+param revisionMode string = 'Single'
+
 @description('StickySessions.Affinity for the app.')
 @allowed(['none', 'sticky'])
 param stickySessionsAffinity string = 'none'
@@ -77,6 +81,7 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
   properties: {
     managedEnvironmentId: containerAppsEnvironment.id
     configuration: {
+      activeRevisionsMode: revisionMode
       ingress: {
         external: true
         targetPort: containerPort
